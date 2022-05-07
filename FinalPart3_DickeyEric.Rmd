@@ -1,0 +1,45 @@
+---
+title: "Final Project - Step 3"
+author: "Eric Dickey"
+date: "8/13/2021"
+output: pdf_document
+---
+# Introduction
+
+>  With cryptocurrency bringing  major change to the financial markets worldwide, there has been extreme volatility and fortunes gained and lost overnight based on price fluctuations. As investors look to capitalize on this new market, many are looking for ways to capture new and interesting trends and correlations in the data to help gauge market movement to make more informed and better investment strategy decisions.
+
+# The problem statement you addressed
+
+> Is there correlation between Bitcoin, Ethereum, and Dogecoin and has this improved over time?  Can this correlation be used as an indicator in price movement to help time the market for buys and sells?
+
+# How you addressed this problem statement
+
+> To examine this problem, I used data for historical closing prices for Bitcoin, Ethereum, and Dogecoin since 2015.  I first had to make the data frames consistent since Bitcoin and Ethereum both had longer history.  Once the data was cleaned up, I joined the data frames together on date to created a master data frame.  This allowed me to work with a clean and consistent dataset.  Focusing on the close price for each day, I plotted various histograms to show the historical price difference for the lifetime of the data and 1 year windows.  Next, the correlation was calculated using Pearson's correlation and placed on a heat map.  Additionally, time charts were made to compare prices at close for year over year comparison. 
+>
+> With the substantiation of suspicion that correlation has been improving over time, a moving average time series model would be appropriate to develop.  That would allow for multiple window sizes to be used and would also help to normalize fluctuations in prices based on coin specific factors. Exponential smoothing may also be helpful in flattening anomalous fluctuations by using a weighted average of past values. The collinearity between the two predictors would be a critical evaluation factor in determining the reliability of the time series model.
+
+# Analysis
+
+> My analysis was surprising and produced meaningful results which answered by questions and produced some interesting insights into future state of this data evaluation.  My assumption was that the coins would be loosely correlated given their volatility and extreme swings based on various factors, such as news reports, social media posts, and government regulations.  What I found, was that the coins actually have a much stronger correlation than anticipated.  Bitcoin and Ethereum had the strongest correlation which has improved year over year. Ethereum and Dogecoin has surprising correlation, which has also improved. Dogecoin and Bitcoin had the worst correlation but had made significant improvements this past year.
+
+* BTC/ETH correlation since 2015 - .904
+* BTC/ETH correlation since 2021 - .963
+* ETH/DOGE correlation since 2015 - .839
+* ETH/DOGE correlation since 2021 - .912
+* BTC/DOGE correlation since 2015 - .651
+* ETH/DOGE correlation since 2021 - .893
+
+> This can be explained since Dogecoin has remained fairly dormant since early 2021.  In examining price volatility, I found that there are dates with extreme fluctuations in prices, usually driven by coin-specific news, however it appears the coins fall back in line with fluctuations as normalized by % movement fairly quickly.  
+
+# Implications
+
+> This is a very interesting data analysis which could drive a larger project.  A retail investor could use a time series analysis as a basic indicator on market trends or use the results as a basic sentiment feedback tool (positive or negative time to buy). The fact that correlation is improving over time may also suggest that cryptocurrency is becoming a more mature asset with Bitcoin being the market leader in other cryptocurrency coins by setting the market temperature for similar assets. 
+
+# Limitations
+>Considering the strong collelation between variables, it can not be ignored that it may be a poor model choice due to influence from an independent variable.  Examining the corrlation struction to examine if serial correlation exists in a time series using a variety of windows to determine the covariance between the variables may help to better understand if movement in one asset can be a good indicator for movement in another asset.
+>
+> In the world of financial investment strategy models, a correlation between two assets is hardly enough information to base large financial decisions. There are additional factors to consider which could likely improve accuracy of price prediction, such as news media sentiment analysis, social media mentions, buy/sell volumes, regulatory actions, and large purchases disclosed by corporations.  Additionally, in order for this strategy to be effective, data would need to be analyzed at a much more macro time level as large investors may take even small gains if they have a tremendous amount of money invested. 
+
+# Concluding Remarks
+
+> The world of cryptocurrency is a very dynamic and fascinating space where extreme price fluctuations can produce significant gains or losses. As the market is still relatively young as an investment industry, it can be hard to predict price movement.  However, data science can aid in this analysis by leveraging historical data to build various correlations upon each other to improve confidence in the assets market direction.  If one asset is a key driver in the price of another asset, as enriched with additional data, there can be a tremendous amount of money made in that delta if there is significant capital behind it.  Exploring the correlation between the price movements of various cryptocurrencies  is a worthwhile effort that could provide benefit to the retail investor or investing professional. 

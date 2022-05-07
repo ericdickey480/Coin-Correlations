@@ -1,0 +1,197 @@
+---
+title: "Final Project - Step 2"
+author: "Eric Dickey"
+date: "8/07/2021"
+output: pdf_document
+---
+
+# How to import and clean my data
+
+> The first step to examine my data involves importing the CSV files which contain historical price and trading volume information.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r echo=TRUE, message=FALSE}
+#Required packages
+library(tidyverse)
+library(dplyr)
+library(reshape2)
+library(scales)
+```
+
+
+```{r}
+# Import CVS files with Bitcoin, Ethereum, and Doge historical data
+btc_df <- read.csv('BTC-USD.csv')
+eth_df <- read.csv('ETH-USD.csv')
+doge_df <- read.csv('DOGE-USD.csv')
+
+head(btc_df)
+head(eth_df)
+head(doge_df)
+
+```
+
+> In review of the dataframes, it is evident that the date ranges all have a different starting date.  To condense the data and use consistent ranges, I created a master data frame with respective columns named for their crypto coins and consolidated the date ranges for common values beteween the data sets found using MIN and MAX.  
+
+```{r}
+nrow(btc_df)
+nrow(eth_df)
+nrow(doge_df)
+
+min(btc_df$Date) 
+max(btc_df$Date)
+
+min(eth_df$Date)
+max(eth_df$Date)
+
+min(doge_df$Date)
+max(doge_df$Date)
+```
+
+```{r message=FALSE}
+#rename column names but keep date consistent between data frames to allow
+#a join later on common values
+
+btc_df <- btc_df%>%
+  rename(date = Date,
+         btc_open = Open,
+         btc_high = High,
+         btc_low = Low,
+         btc_close = Close,
+         btc_adj_close = Adj.Close,
+         btc_volume = Volume
+        )
+
+eth_df <- eth_df%>%
+  rename(date = Date,
+         eth_open = Open,
+         eth_high = High,
+         eth_low = Low,
+         eth_close = Close,
+         eth_adj_close = Adj.Close,
+         eth_volume = Volume
+        )
+
+doge_df <- doge_df%>%
+  rename(date = Date,
+         doge_open = Open,
+         doge_high = High,
+         doge_low = Low,
+         doge_close = Close,
+         doge_adj_close = Adj.Close,
+         doge_volume = Volume
+        )
+
+colnames(btc_df)
+colnames(eth_df)
+colnames(doge_df)
+
+#Do an inner join on date between the 3 data frames
+master_df <- merge(btc_df, eth_df, by="date") %>%
+                    merge(doge_df, by="date")
+
+#Validate inner join min and max date ranges match previous min and max 
+#common values
+
+min(master_df$date)
+max(master_df$date)
+
+```
+
+> Next I examined the imported data to determine if I need to change the data class types. 
+
+```{r}
+
+str(master_df)
+
+```
+
+> The advantage of these data sets is that they have the same columns, data types, and structure, however the date column needs to be updated to a date data class. After changing the date column, all remaining columns are numeric.
+
+```{r message=FALSE}
+master_df$date <- as.Date(master_df$date)
+```
+
+
+# What does the final data set look like?
+
+```{r}
+str(master_df)
+colnames(master_df)
+summary(master_df)
+```
+
+# Questions for future steps
+
+> One outstanding question I have is how correlation will or will not change greatly over time.  Bitcoin has by far been the more mature coin, however Ethereum and Dogecoin have gained popularity recently so it will be interesting to see if their price changes correlate with Bitcoin's. 
+
+
+# What information is not self-evident?
+
+> There are many external factors which may explain extreme volatility in the data which may not be reflected in this analysis.  Cryptocurrency can be driven by numerous external factors, such as new regulations, new adoption, or even notable mentions on social media.  Some of these factors may skew the analysis, however I am hoping that longer trends can overcome that. 
+
+# What are different ways you could look at this data?
+
+> Comparing the variables for correlation will be my primary focus, however there are different ways to analyze this data.  My data set includes trading volume which may be interesting to review to see if that is related to price volatility and fluctuations.
+
+# How do you plan to slice and dice the data?
+
+> I plan to dissect the data into various windows in order to see if correlation is improving over time as the coins mature.  This will likely require some exploratory data analysis in order to review several different ways to segment the data into date ranges.  Taking samples from extreme volatility time frames will also allow me to explore my research question asking if volatility and correlation are related.
+
+# How could you summarize your data to answer key questions?
+
+> I will place a strong focus on analyzing the correlation between two variables in order to address my 4 of my key questions.  I believe that the Pearson correlation formula will be helpful in this analysis and will evaluate the p-value and correlation coefficient in the analysis.  An ANOVA test will be leveraged if I expand my analysis to compare multiple variables against each other.
+
+# What types of plots and tables will help you to illustrate the findings to your questions?
+
+> Scatterplots and histrograms will be the primary visualization I will use to demonstrate the correlation between my variables. As I slice and dice my data, additional visuals will be added if of value.
+
+```{r}
+#Basic correlation
+GGally::ggpairs(master_df, columns = c(5,11,17), title = "Price at close BTC/ETH/DOGE")
+
+#Correlation chart
+coinCor <- cor(master_df[,c(5,11,17)])
+
+coinMelt <- melt(coinCor, varnames=c("x","y"), value.name="Correlation")
+
+coinMelt <- coinMelt[order(coinMelt$Correlation), ]
+
+coinMelt
+
+#Correlation heatmap
+ggplot(coinMelt, aes(x=x, y=y)) +
+  geom_tile(aes(fill=Correlation)) +
+  scale_fill_gradient2(low=muted("red"), mid="white",
+                       high="steelblue",
+                       guide=guide_colorbar(ticks=FALSE, barheight=10),
+                       limits=c(-1,1)) +
+  theme_minimal () +
+  labs(x=NULL, y=NULL)
+```
+
+```{r}
+p1 <- ggplot(master_df, aes(x=date, y=btc_close)) +
+  geom_line() + 
+  xlab("")
+p1
+
+p2 <- ggplot(master_df, aes(x=date, y=eth_close)) +
+  geom_line() + 
+  xlab("")
+p2
+
+p3 <- ggplot(master_df, aes(x=date, y=doge_close)) +
+  geom_line() + 
+  xlab("")
+p3
+```
+# Do you plan on incorporating any machine learning techniques to answer your research questions?
+
+> I am not confident that there is enough historical data available present that would support a machine learning model at this time.  I suspect that because Doge and Ethereum will likely be more dormant and less volatile than Bitcoin in relation to age, that a model will likely be fairly inaccurate to use with this data set only.  If proven otherwise, I will attempt to incorporate a simple linear regression model and evaluate the results. 
+
+# Questions for future steps
+
+> It will be very interesting to see how correlation has improved (or not) year over year, as it seems that Dogecoin in particular has re-gained momentum in recent months.  The impact of significant price movements in one coin will also be interesting to see how it is reflected in the other coins.  If one coin has a volatility of +/-10% in a day, but another coin only moves a fraction of that, does that mean that one coin is more stable and risk adverse than another?

@@ -1,0 +1,63 @@
+---
+title: "Final Project - Step 1"
+author: "Eric Dickey"
+date: "8/01/2021"
+output: pdf_document
+---
+
+**Introduction **\
+
+>The popularity of cryptocurrency has exploded in recent years and has transformed itself as a singular coin (Bitcoin) used in Dark markets for nefarious purposes into a maturing and legitimate financial sector.  With the development of hundreds of cryptocurrency coins and the support of mainstream financial companies, such as PayPal and Square, cryptocurrency has attracted both financial investment professionals, as well as hobby retail investors (Levy 2021). A key component of modern portfolio theory is determining the correlation coefficient between two assets to determine how the assets move in tandem with each other and the strength of their relationship.  While the predictive powers of the correlation coefficient is limited due to asset volatility (particularly with cryptocurrencies), it can be a strong indicator for risk management and may help to influence a decision to buy and sell an asset (The Investment Team 2020).
+
+**Research Questions **\
+
+- What is the correlation between Bitcoin and Ethereum?
+- What is the correlation between Bitcoin and Dogecoin?
+- What is the correlation between Dogecoin and Ethereum?
+- How does volatility affect the correlation between assets?
+- Is correlation between the assets improving as the cryptocurrency coins mature?
+
+**Approach**\
+
+>The first data to explore will be plotting the prices over time for the various cryptocurrency prices over time in histogram charts and evaluate the summary statistics for the data sets.  This will also allow for some initial exploratory data analysis to be done to determine if there is loose correlation between the various coins.  Next, a focus will be placed on evaluating the relationship between the variables with a focus on correlation.  Causation can also be explored to evaluate if volatility in the price of one coin causes fluctuation in the price of the other coin.  
+
+>Armed with the aforementioned, a hypothesis should be able to be produced and tested.  Simple regression is appropriate given two variables are being tested at a time, although an opportunity to leverage multiple regression testing could exist to test if fluctuation in the price of one coin affects multiple coins. 
+
+**Data**\
+
+- Bitcoin - Historical prices with open price, daily high, daily low, and close price since September 14, 2014
+- Ethereum - Historical prices with open price, daily high, daily low, and close price since August 7, 2015
+- Dogecoin - Historical prices with open price, daily high, daily low, and close price since September 17, 2014
+
+Sourced from Kaggle - All data sets are complete, with no null or mismatched values with the purpose of documenting market history for the cyrtocurrency coins
+
+- https://www.kaggle.com/varpit94/bitcoin-data-updated-till-26jun2021
+- https://www.kaggle.com/varpit94/ethereum-data
+- https://www.kaggle.com/varpit94/dogecoin-data
+
+**Required Packages**\
+
+- ggplot2
+- ddplyr
+- ggpairs
+- magrittr
+- readxl
+
+**Plots and Table Needs**\
+
+- Histogram price over time for each coin
+- Summary Statistics
+- Lognormal distribution of coin prices
+- Correlation coefficients between coins
+- Linear regressions compared between coins
+
+
+**Questions for future steps**\
+
+> One of the outstanding questions for future steps is determining whether correlation has improved over time.  While Bitcoin is the most established cryptocurrency, Dodgecoin has largely been dormant until recently when it experienced explosive growth, followed by less volatility.  With the popularity of cryptocurrencies gaining momentum and interest over time, particularly amongst retail investors, the correlation may be improving over time as volatility is reduced and massive shifts in prices become less common (with fewer "overnight millionaires").  If the correlation is improving, that also poses the question whether the correlation can be used reliably as a predictive value to influence buys and sells.   
+
+**References**\
+
+Levy, A. (2021, July 20). Is Cryptocurrecy a Good Investment? The Motley Fool. https://www.fool.com/investing/stock-market/market-sectors/financials/blockchain-stocks/is-cryptocurrency-good-investment/
+
+The Investment Team. (2020, March 31). Can I Use The Correlation Coefficient to Prdict Stock Market Returns? Investopedia. https://www.investopedia.com/ask/answers/051315/how-can-i-use-correlation-coefficient-predict-returns-stock-market.asp
